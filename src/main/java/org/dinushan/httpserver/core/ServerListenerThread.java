@@ -22,6 +22,7 @@ public class ServerListenerThread extends Thread{
     public ServerListenerThread(int port, String webRoot) throws IOException {
         this.port = port;
         this.webRoot = webRoot;
+        //Creating the server socket and binding it to the port
         this.serverSocket = new ServerSocket(this.port);
     }
     //run method is used to listen to the port and create a HttpConnectionWorkerThread for each request
@@ -37,10 +38,19 @@ public class ServerListenerThread extends Thread{
                 //HttpConnectionWorkerThread is started
                 httpConnectionWorkerThread.start();
             }
+            if(serverSocket.isClosed()){
+                LOGGER.info("org.dinushan.httpserver.Server stopped");
+            }
         //If there is an error while listening to the port, the error is logged and the application is terminated
         } catch (IOException e) {
-            e.printStackTrace();
-            LOGGER.error("Problem with setting Socket", e);
+            if(serverSocket.isClosed()){
+                //If the server is stopped, the error is logged
+                LOGGER.error("org.dinushan.httpserver.Server Stopped!");
+            }else{
+                //If the server is not stopped, the error is logged and the application is terminated
+                LOGGER.error("Error while listening to the port",e);
+            }
+
         } finally {
             if (serverSocket != null) {
                 try {
@@ -48,5 +58,14 @@ public class ServerListenerThread extends Thread{
                 } catch (IOException ignored) {}
             }
         }
+    }
+
+    //Overide the interrupt method to close the server socket
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        try {
+            serverSocket.close();
+        } catch (IOException ignored) {}
     }
 }

@@ -1,4 +1,5 @@
-import org.dinushan.httpserver.HttpServer;
+package org.dinushan.httpserver;
+
 import org.dinushan.httpserver.configuration.Configuration;
 import org.dinushan.httpserver.configuration.ConfigurationManager;
 
@@ -24,7 +25,7 @@ public class Server extends JFrame {
     public Server(int width, int height){
 
 
-        setTitle("Server");
+        setTitle("org.dinushan.httpserver.Server");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.Width=width;
@@ -50,7 +51,7 @@ public class Server extends JFrame {
 
 
 
-        JLabel label = new JLabel("Simple Server running on port "+port);
+        JLabel label = new JLabel("Simple org.dinushan.httpserver.Server running on port "+port);
         label.setFont(new Font("Serif", Font.PLAIN, 20));
 
 //        final JPanel panel = new JPanel();
@@ -115,11 +116,11 @@ public class Server extends JFrame {
                 ShowHtDocs.setEnabled(true);
                 ShowBrowser.setEnabled(true);
                 HttpServer.start();
-                Output.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")) +" =>  Server Started\n");
+                Output.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")) +" =>  org.dinushan.httpserver.Server Started\n");
                 configuration = ConfigurationManager.getInstance().getConfiguration();
                 port = configuration.getPort();
                 WebRoot=configuration.getWebRoot();
-                Output.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")) +" =>  Server Running on port "+port+"\n");
+                Output.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")) +" =>  org.dinushan.httpserver.Server Running on port "+port+"\n");
 
             }
         });
@@ -155,7 +156,7 @@ public class Server extends JFrame {
                     ShowHtDocs.setEnabled(false);
                     ShowBrowser.setEnabled(false);
                     startButton.setEnabled(true);
-                    Output.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")) +" => Server Stopped\n");
+                    Output.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")) +" => org.dinushan.httpserver.Server Stopped\n");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

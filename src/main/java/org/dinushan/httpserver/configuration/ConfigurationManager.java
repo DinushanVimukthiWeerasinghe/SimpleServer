@@ -40,24 +40,34 @@ public class ConfigurationManager {
         FileReader fileReader = null;
         try {
             fileReader = new FileReader(filePath);
-        } catch (FileNotFoundException e) {
-            throw new HttpConfigurationException(e);
-        }
-        StringBuffer stringBuffer = new StringBuffer();
-        int i;
-        while (true) {
-            try {
-                if ((i = fileReader.read()) == -1) break;
-            } catch (IOException e) {
-                 throw new HttpConfigurationException("Error Parsing Configuration Class",e);
+            StringBuffer stringBuffer = new StringBuffer();
+            int i;
+            while (true) {
+                try {
+                    if ((i = fileReader.read()) == -1) break;
+                } catch (IOException e) {
+                    throw new HttpConfigurationException("Error Parsing Configuration Class",e);
+                }
+                stringBuffer.append((char) i);
             }
-            stringBuffer.append((char) i);
+            JsonNode conf= Json.parse(stringBuffer.toString()) ;
+            System.out.println(conf);
+            try {
+                configuration = Json.fromJSON(conf,Configuration.class);
+            } catch (Exception e) {
+                throw new HttpConfigurationException("Error Parsing Configuration File Internal",e);
+            }
+        } catch (FileNotFoundException e) {
+            if(e.getMessage().contains("http.json")){
+                JsonNode conf= Json.parse("{\"port\":2728,\"webRoot\":\"htdocs/\"}");
+                try {
+                    configuration = Json.fromJSON(conf,Configuration.class);
+                } catch (Exception e1) {
+                    throw new HttpConfigurationException("Error Parsing Configuration File Internal",e1);
+                }
+            }
         }
-        JsonNode conf= Json.parse(stringBuffer.toString());
-        try {
-            configuration = Json.fromJSON(conf,Configuration.class);
-        } catch (Exception e) {
-            throw new HttpConfigurationException("Error Parsing Configuration File Internal",e);
-        }
+
+
     }
 }

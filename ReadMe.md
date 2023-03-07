@@ -1,4 +1,4 @@
-<center><h1>SCS 2105 Computer Network Assignment<h3>Weerasinghe M.A.D.V</h3>2020/CS/202</h1></center>
+<center><h1>Simple Web Server Using JAVA </h1></center>
 
 <h2>How to Run</h2>
 
